@@ -1,19 +1,21 @@
-var greet1 = require('./greet1');
-greet1();
+var EventEmitter = require('events');
+var util = require('util');
 
+function Greetr() {
+    this.greeting = "Hello my people!"
+}
 
-var greet2 = require('./greet2').greet;
-greet2();
+util.inherits(Greetr, EventEmitter);
 
+Greetr.prototype.greet = function() {
+    console.log(this.greeting);
+    this.emit('greet');
+}
 
-var greet3 = require('./greet3');
-greet3.greet();
+var greeter1 = new Greetr;
 
+greeter1.on('greet', function () {
+    console.log('someone greeted!');
+});
 
-var Greet4 = require('./greet4');
-var grtr = new Greet4;
-grtr.greet();
-
-
-var greet5 = require('./greet5').greet;
-greet5();
+greeter1.greet();
